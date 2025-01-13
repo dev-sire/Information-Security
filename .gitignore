@@ -1,2 +1,4 @@
 
 security.log
+server.crt
+server.key
