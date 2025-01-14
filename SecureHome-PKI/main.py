@@ -2,31 +2,33 @@ from devices import HomeSensor, CleaningSensor, LightSensor
 from network import WirelessNetwork
 import ui
 
-# Replace with actual server address and certificate path
-server_address = "192.168.0.7"
-server_certificate_path = "/server.crt"
+server_address = ('localhost', 5000)
+server_certificate_path = "server.crt"
 
-# Create devices
-home_sensor = HomeSensor("TemperatureSensor", "Temperature", "Celsius")
-cleaning_sensor = CleaningSensor("Cleaning Sensor")
-light_sensor = LightSensor("Light Sensor")
+home_sensor = HomeSensor("TemperatureSensor", "Temperature", "Celsius", "localhost", 8081)
+cleaning_sensor = CleaningSensor("CleaningSensor", "localhost", 8082)
+light_sensor = LightSensor("LightSensor", "localhost", 8083)
 
 # Create network and connect devices
-network = WirelessNetwork(server_address, server_certificate_path)
-network.connect_device(home_sensor)
-network.connect_device(cleaning_sensor)
-network.connect_device(light_sensor)
+network = WirelessNetwork(server_address, server_certificate_path)  
 
-# Create web interface instance
+try:
+    network.connect_device(home_sensor)
+    network.connect_device(cleaning_sensor)
+    network.connect_device(light_sensor)
+except Exception as e:
+    print(f"Error connecting devices: {e}")
+    exit(1)
+
 web_interface = ui.WebInterface([home_sensor, cleaning_sensor, light_sensor])
 
-# Function to send command to a device using UI
 def send_command_to_device(device_name, command):
-    network.send_command_to_device(device_name, command)
+    try:
+        network.send_command_to_device(device_name, command)
+    except Exception as e:
+        print(f"Error sending command to {device_name}: {e}")
 
-# Main loop
 while True:
-    # Web interface interaction
     web_interface.display_dashboard()
     device_name = input("Enter device name (or 'exit' to quit): ")
     if device_name.lower() == "exit":
@@ -35,7 +37,6 @@ while True:
     if command.lower() == "back":
         continue
 
-    # Send command to device (if valid)
     if device_name and command:
         send_command_to_device(device_name, command)
     else:

@@ -1,6 +1,6 @@
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import rsa
-from cryptography.hazmat.primitives.serialization import load_pem_x509_certificate, Encoding
+from cryptography.hazmat.primitives.serialization import load_pem_x509_certificate, Encoding, serialization
 
 class SecurityManager:
     def __init__(self, ca_certificate_path):

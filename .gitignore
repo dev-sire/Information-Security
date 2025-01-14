@@ -2,3 +2,5 @@
 security.log
 server.crt
 server.key
+*.zip
+__pycache__
