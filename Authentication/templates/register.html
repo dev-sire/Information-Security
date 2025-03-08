@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Welcome To ChuChu Registration System</h1>
+    <p>A simple auth implementation using Python, Flask, SQlite and Ngrok</p>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.username.label }} {{ form.username() }}<br>
+        {{ form.password.label }} {{ form.password() }}<br>
+        {{ form.confirm_password.label }} {{ form.confirm_password() }}<br>
+        <input type="submit" value="Register">
+    </form>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

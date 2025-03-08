@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Activity Logs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Activity Logs</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Action</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log, username in logs %}
+            <tr>
+                <td>{{ username }}</td>
+                <td>{{ log.action }}</td>
+                <td>{{ log.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>
