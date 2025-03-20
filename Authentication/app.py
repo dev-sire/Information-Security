@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from forms import LoginForm, RegistrationForm
 from models import db, User, ActivityLog
+import bcrypt  # Import bcrypt for password hashing
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dev-sire'
@@ -32,7 +33,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user and user.password == form.password.data:  # Use hashed passwords in production
+        if user and bcrypt.checkpw(form.password.data.encode('utf-8'), user.password.encode('utf-8')):  # Verify hashed password
             login_user(user)
             log_activity(user.id, 'Logged In')
             return redirect(url_for('dashboard'))
@@ -44,7 +45,8 @@ def login():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, password=form.password.data)  # Use hashed passwords in production
+        hashed_password = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt())  # Hash the password
+        user = User(username=form.username.data, password=hashed_password.decode('utf-8'))  # Store the hashed password
         db.session.add(user)
         db.session.commit()
         log_activity(user.id, 'Account Created')

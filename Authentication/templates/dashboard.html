@@ -2,14 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="dashboard">
         <h2>Welcome, {{ name }}!</h2>
-        <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('logout') }}" class="button logout">Logout</a>
         <br><br>
+
+        <div class="info-assurance">
+            <h3>Information Assurance Principles</h3>
+            <ul>
+                <li><strong>Confidentiality:</strong> User passwords are hashed using bcrypt before storage, ensuring that even if the database is compromised, the passwords remain secure.</li>
+                <li><strong>Integrity:</strong> Data integrity is maintained through secure hashing algorithms and validation checks during registration and login.</li>
+                <li><strong>Availability:</strong> The system is designed to be responsive and available to users, with error handling to manage potential issues.</li>
+                <li><strong>Non-repudiation:</strong> User actions are logged, ensuring that users cannot deny their actions within the system.</li>
+            </ul>
+        </div>
+
+        <div class="security-overview">
+            <h3>Security Overview</h3>
+            <h4>Assets</h4>
+            <p>User data (username, hashed passwords), application code, and database.</p>
+            <h4>Threats</h4>
+            <p>Unauthorized access, data breaches, SQL injection, and denial of service attacks.</p>
+            <h4>Vulnerabilities</h4>
+            <p>Weak passwords, lack of input validation, and insufficient error handling.</p>
+            <h4>Risks</h4>
+            <p>Data exposure, unauthorized access to user accounts, and service downtime.</p>
+            <h4>Controls</h4>
+            <ul>
+                <li>Input Validation: Ensuring that user inputs are validated to prevent SQL injection and other attacks.</li>
+                <li>Password Hashing: Using bcrypt to hash passwords before storing them in the database.</li>
+                <li>Session Management: Implementing secure session management to track user logins.</li>
+                <li>Logging: Keeping logs of user actions for auditing and non-repudiation.</li>
+            </ul>
+        </div>
+
+        <!-- <div class="recent-activity">
+            <h3>Recent Activity</h3>
+            <ul>
+                <li>Logged in on October 10, 2023</li>
+                <li>Updated profile on October 5, 2023</li>
+                <li>Changed password on September 30, 2023</li>
+            </ul>
+        </div> -->
+
         <a href="{{ url_for('view_logs') }}" class="button">View Activity Logs</a>
     </div>
 </body>
